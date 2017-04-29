@@ -76,8 +76,8 @@ int main()
 
 int nativesRand()
 {
-	int maxVal = 17;
-	int minVal = 10;
+	int maxVal = 15;
+	int minVal = 7;
 
 
 	srand(time(0));
@@ -106,15 +106,15 @@ int camelRand() //generates a random number for how tired the camel is. (fast tr
 
 int medTravelRand()
 {
-	int maxVal = 5;
-	int minVal = 12;
+	int maxVal = 12;
+	int minVal = 5;
 
 
 	srand(time(0));
 
 	int distance;
 
-	distance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
+	distance = (rand() % ((maxVal - minVal) + 1)) + minVal; //generate a random number between min and max.
 
 	return distance;
 }
@@ -135,7 +135,8 @@ void clearScreen() //clears the screen.
 
 void pause() //pauses the program until the user presses Enter.
 {
-
+	
+	
 	cout << endl << "Press Enter to continue! " << endl; 
 	cin.get();
 	cin.ignore();
