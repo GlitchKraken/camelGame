@@ -28,9 +28,13 @@ void rest(int& camel, int& natives);
 int nativesRand(int& nativesDistance);//the RNG behind how far the natives move
 int camelRand(); //RNG for how. tired the camel is.
 int fastTravelRand(); //RNG for fast-paced travel.
+int medTravelRand(); //RNG for medium-paced travel.
 char userChoiceValidation(char& userChoice);
 void nightTimePicture();
 void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles); //called when the user wants to travel ahead at full speed.
+void travelModerateSpeed(int& camel, int& natives, int& Thirst, int& miles);
+void canteenDrink(int& thirst, int& canteen); //called if user wants to drink from canteen.
+void oasisPicutre();
 
 //since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
@@ -91,6 +95,21 @@ int camelRand() //generates a random number for how tired the camel is. (fast tr
 	return tired;
 }
 
+int medTravelRand()
+{
+	int maxVal = 5;
+	int minVal = 12;
+
+
+	srand(time(0));
+
+	int distance;
+
+	distance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
+
+	return distance;
+}
+
 void clearScreen() //clears the screen.
 {
 	cout << endl << endl  << endl << endl  << endl << endl; 
@@ -100,6 +119,9 @@ void clearScreen() //clears the screen.
 	cout << endl << endl  << endl << endl  << endl << endl; 
 	cout << endl << endl  << endl << endl  << endl << endl; 
 	cout << endl << endl  << endl << endl  << endl << endl; 
+	cout << endl << endl  << endl << endl  << endl << endl; 
+	cout << endl << endl  << endl << endl  << endl << endl; 
+	cout << endl << endl  << endl << endl  << endl << endl;
 }
 
 void pause() //pauses the program until the user presses Enter.
@@ -244,7 +266,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	case 'B':
 	
-		cout << "You chose B!" << endl;
+		travelModerateSpeed(camel, natives, thirst, miles);
 		pause();
 		break;
 
@@ -271,6 +293,9 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		pause();
 		break;
 	}
+
+	//an if-structure containing Game-over scenarios should go here.
+
 }
 
 void statusCheck(int miles, int canteen, int natives) //called when the user checks their status
@@ -322,10 +347,17 @@ void nightTimePicture() //display a pretty nighttime picturre
 
 void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles)
 {
+	int milesTraveled;
+
 	camel += camelRand(); //add a random amount to the camel's tiredness
 	natives += nativesRand(); //randomly increase the native's distance
-	Thirst++; //add one to thirst.
-	miles += fastTravelRand(); //randomly increase the number of miles traveled.
+	Thirst++; //add one to thirst
+
+	milesTraveled = fastTravelRand(); //randomly increase the number of miles traveled.
+	miles += milesTraveled;
+	clearScreen();
+	cout << "Shooting foward at a breakneck pace, you travled " << milesTraveled << " miles!" << endl;
+
 }
 
 int fastTravelRand() //generates a random number for how far the user travel, then returns it.
@@ -341,4 +373,60 @@ int fastTravelRand() //generates a random number for how far the user travel, th
 	distance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
 
 	return distance;
+}
+
+void oasisPicutre()
+{
+ cout << "    ___ __" << endl; 
+ cout << "   (_  ( _ ) )__                  '.       :   /    .'" << endl;
+ cout << "     '(___(_____)      __           '.     :  /   .'" << endl;
+ cout << "                     /. _`            '.   : /  .'" << endl;
+ cout << "                .--.|/_/__      -----____   _  _____-----" << endl;
+ cout << "_______________''.--o/___  `_______________(_)___________" << endl;
+ cout << "       ~        /.'o|_o  '.|  ~                   ~   ~" << endl;
+ cout << "  ~            |/    |_|  ~'         ~" << endl;
+ cout << "               '  ~  |_|        ~       ~     ~     ~" << endl;
+ cout << "      ~    ~          |_|O  ~                       ~" << endl;
+ cout << "             ~     ___|_||_____     ~       ~    ~" << endl;
+ cout << "   ~    ~      .'':. .|_|A:. ..::''." << endl;
+ cout << "             /:.  .:::|_|.` .:.  :.:`  ~" << endl;
+ cout << "  ~         :..:. .:. .::..:  .:  ..:.       ~   ~    ~" << endl;
+ cout << "             .: .:  :. .: ..:: .  /" << endl;
+ cout << "    ~      ~ ----------------------     ~    ~    ~         ~" << endl;
+ cout << "               ~           ~    ~   ~             ~" << endl;
+ cout << "        ~         ~            ~   ~                 ~" << endl;
+ cout << "   ~                  ~    ~ ~                 ~" << endl;
+}
+
+void travelModerateSpeed(int& camel, int& natives, int& Thirst, int& miles)
+{
+	int milesTraveled;
+
+	camel++; //one to the camel's tiredness
+	natives += nativesRand(); //randomly increase the native's distance
+	Thirst++; //add one to thirst
+
+	milesTraveled = medTravelRand(); //randomly increase the number of miles traveled.
+	miles += milesTraveled;
+	clearScreen();
+	cout << "Taking a steady pace, you travled " << milesTraveled << " miles!" << endl;
+
+}
+
+void canteenDrink(int& thirst, int& canteen)
+{
+	if(canteen > 0)
+	{
+		canteen--;
+		thirst = 0;
+		
+	clearScreen();
+	cout << "You Take a big, refresing gulp from your canteen... Ahhhh!" << endl;
+	cout << "(thirst has been reset)" << endl; 
+	}
+	else
+	{
+		clearScreen();
+		cout << "Uh oh... Looks like your canteen is empty... " << endl;
+	}
 }
