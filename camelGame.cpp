@@ -34,10 +34,16 @@ void nightTimePicture(); //a pretty picture at night
 void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles); //called when the user wants to travel ahead at full speed.
 void travelModerateSpeed(int& camel, int& natives, int& Thirst, int& miles);
 void canteenDrink(int& thirst, int& canteen); //called if user wants to drink from canteen.
-void oasisPicutre(); //a picture of the oasis!
+bool foundOasis(); //Handles the RNG for the oasis.
+void oasisPicture(); //a picture of the oasis!
+void oasis(int& thirst, int& camel, int& canteen);
+void nativeGameOver(bool& quit);
+void victory(bool& quit);
 
 //since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
+
+void victoryPic();
 
 int main()
 {
@@ -47,7 +53,7 @@ int main()
 	int Thirst = 0;
 	int camelTiredness = 0;
 	int nativesDistance = -20;
-	int canteenDrinks = 6;
+	int canteenDrinks = 3;
 
 
 	superEpicCamelMenu(); //display the amazing title screen, once.
@@ -67,8 +73,8 @@ int main()
 
 int nativesRand()
 {
-	int maxVal = 13;
-	int minVal = 7;
+	int maxVal = 17;
+	int minVal = 10;
 
 
 	srand(time(0));
@@ -267,12 +273,20 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 	case 'B':
 	
 		travelModerateSpeed(camel, natives, thirst, miles);
+		if(foundOasis())
+		{
+			oasis(thirst, camel, canteen);
+		}
 		pause();
 		break;
 
 	case 'C':
 
 		travelFullSpeed(camel, natives, thirst, miles);
+		if(foundOasis())
+		{
+			oasis(thirst, camel, canteen);
+		}
 		pause();
 		break;
 
@@ -310,6 +324,40 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		cout << " 			GAME 			OVER			 " << endl;
 		cout << endl << endl << "...least the natives get their camel back." << endl;
 		quit = true;
+	}
+
+	if(camel > 5)
+	{
+		clearScreen();
+		cout << "Your camel is getting really tired..." << endl;
+		cout << "He looks like he doesn't feel so good." << endl;
+		pause();
+	}
+
+	if(camel > 8)
+	{
+		clearScreen();
+		cout << "Tired of your Shenanaigans, your camel rears up," << endl;
+		cout << "boots you off, and runs far into the distance- " << endl;
+		cout << "Leaving you behind." << endl;
+		cout << "		GAME 		OVER" << endl;
+		cout << endl << endl << "...maybe be nicer to mr. camel next time :( " << endl;
+		quit = true;
+	}
+	if(miles - natives < 15)
+	{
+		clearScreen();
+		cout << "You see a large rumble of dust, and small figures on the horizon..." << endl;
+		cout << "The natives are getting close..." << endl;
+		pause();
+	}
+	if (natives >= miles )
+	{
+		nativeGameOver(quit); //give the user the native's gameOver screen, and exit the game.
+	}
+	if(miles >= 200)
+	{
+		victory(quit); //give the user a victory message, then set quit/done = true. (exit game).
 	}
 
 }
@@ -391,7 +439,7 @@ int fastTravelRand() //generates a random number for how far the user travel, th
 	return distance;
 }
 
-void oasisPicutre()
+void oasisPicture()
 {
  cout << "    ___ __" << endl; 
  cout << "   (_  ( _ ) )__                  '.       :   /    .'" << endl;
@@ -445,4 +493,88 @@ void canteenDrink(int& thirst, int& canteen)
 		clearScreen();
 		cout << "Uh oh... Looks like your canteen is empty... " << endl;
 	}
+}
+
+void victoryPic()
+{
+ cout << "	                  /-----/                        |" << endl;
+ cout << "  *                 | |n| |                       -#-       *            *" << endl;
+ cout << "                    | ||_||                        |" << endl;
+ cout << "                   /  \\Y//      *" << endl;
+ cout << "            )(__X,,|__|   |;;//--\\" << endl;
+ cout << "           /  \\;;;;;;;;;;;;/|----|                              *" << endl;
+ cout << "           |A | |            | U  |" << endl;
+ cout << "         )_|  | |____)-----( |    |" << endl;
+ cout << "        ///|__|-'////       \\|___)=(__X" << endl;
+ cout << "       /////////////         \\///   \\/ \\                              *" << endl;
+ cout << "       |           |  U    U |//     \\u||" << endl;
+ cout << "       |   )_,-,___|_)=(     | |  U  |_|_X" << endl;
+ cout << "       |  ///   \\|//   \\   | |  __ |/// \\" << endl;
+ cout << "     )_')(//     \\/     >---)=( /  \\  | |-----------------..," << endl;
+ cout << "    //// ,\\u   u |   u /////   \\  ||__|A|----------------.., ," << endl;
+ cout << "   |  | .. |      |    ///// ,-, \\__||--------------------.., ," << endl;
+ cout << "---'--'_::_|______'----| u | | | |-----------------------.., ," << endl;
+ cout << "                       |___|_|_|_|----------------------.., " << endl;
+ cout << "                            `--------------------------.., " << endl;
+
+}
+
+bool foundOasis()
+{
+	int maxVal = 20;
+	int minVal = 1;
+
+
+	srand(time(0));
+
+	int chance;
+
+	chance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
+
+	if(chance == 7) //pick an arbitrary number between 1 and 20. if that number has been chosen, the oasis is found.
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+void oasis(int& thirst, int& camel, int& canteen)
+{
+	thirst = 0;
+	camel = 0;
+	canteen = 3;
+
+	clearScreen();
+	cout << "In the corner of your eye you see... a Mirage...? " << endl;
+	cout << "No, an Oasis! How Lucky! " << endl;
+	cout << "Your thirst has been reset." << endl;
+	cout << "Your canteen was refilled." << endl;
+	cout << "your camel got some rest." << endl;
+
+	oasisPicture();
+}
+
+void victory(bool& quit)
+{
+	clearScreen();
+
+	cout << "in the distance you see it! civilization..." << endl;
+	cout << "The mobi desert is behind you, as are the natives." << endl;
+	cout << "YOU 		WON!!! " << endl;
+	cout << endl << endl << endl;
+	victoryPic();
+	quit = true;
+}
+
+void nativeGameOver(bool& quit)
+{
+	clearScreen();
+	cout << "The natives caught up with you, ruffed you up, and took" << endl;
+	cout << "their camel BACK." << endl;
+	cout << endl << endl << "		Game 		OVER" << endl;
+	quit = true;
 }
