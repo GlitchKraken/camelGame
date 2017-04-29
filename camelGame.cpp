@@ -26,8 +26,11 @@ void mainActionMenu();
 void statusCheck(int miles, int canteen, int natives);
 void rest(int& camel, int& natives);
 int nativesRand(int& nativesDistance);//the RNG behind how far the natives move
+int camelRand(); //RNG for how. tired the camel is.
+int fastTravelRand(); //RNG for fast-paced travel.
 char userChoiceValidation(char& userChoice);
 void nightTimePicture();
+void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles); //called when the user wants to travel ahead at full speed.
 
 //since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
@@ -44,11 +47,12 @@ int main()
 
 
 	superEpicCamelMenu(); //display the amazing title screen, once.
+
 	do
 	{
 		mainActionMenu(); //display main-menu
 		cin >> choice; //get the user's choice
-		userChoiceValidation(choice); //validate it
+		userChoiceValidation(choice); //validate the user's choice
 		logic(done, choice, milesTraveled, canteenDrinks, Thirst, nativesDistance, camelTiredness); //perform logic based on this choice
 
 	}while(done == false);
@@ -59,7 +63,7 @@ int main()
 
 int nativesRand()
 {
-	int maxVal = 15;
+	int maxVal = 13;
 	int minVal = 7;
 
 
@@ -67,9 +71,24 @@ int nativesRand()
 
 	int distance;
 
-	distance = (rand() % (maxVal - minVal + 1)) + minVal;
+	distance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
 
 	return distance;
+}
+
+int camelRand() //generates a random number for how tired the camel is. (fast travel)
+{
+	int maxVal = 1;
+	int minVal = 3;
+
+
+	srand(time(0));
+
+	int tired;
+
+	tired = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
+
+	return tired;
 }
 
 void clearScreen() //clears the screen.
@@ -231,7 +250,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	case 'C':
 
-		cout << "You chose C!";
+		travelFullSpeed(camel, natives, thirst, miles);
 		pause();
 		break;
 
@@ -299,4 +318,27 @@ void nightTimePicture() //display a pretty nighttime picturre
  cout << "                   c       C" << endl;
  cout << "              C        C" << endl;
  cout << "                   C                                                              " << endl; 
+}
+
+void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles)
+{
+	camel += camelRand(); //add a random amount to the camel's tiredness
+	natives += nativesRand(); //randomly increase the native's distance
+	Thirst++; //add one to thirst.
+	miles += fastTravelRand(); //randomly increase the number of miles traveled.
+}
+
+int fastTravelRand() //generates a random number for how far the user travel, then returns it.
+{
+	int maxVal = 20;
+	int minVal = 10;
+
+
+	srand(time(0));
+
+	int distance;
+
+	distance = (rand() % (maxVal - minVal + 1)) + minVal; //generate a random number between min and max.
+
+	return distance;
 }
