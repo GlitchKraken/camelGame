@@ -17,17 +17,19 @@
 
 using namespace std;
 
-void clearScreen();
-void pause();
+void clearScreen(); //clears the screen upon call.
+void pause(); //pauses until the user presses Enter.
 
 void camelWelcomeText();
 void superEpicCamelMenu();
 void mainActionMenu();
 void statusCheck(int miles, int canteen, int natives);
-
+void rest(int& camel, int& natives);
+int nativesRand(int& nativesDistance);//the RNG behind how far the natives move
 char userChoiceValidation(char& userChoice);
+void nightTimePicture();
 
-//since logic will be handling *most* of the logic, it is necessary for it to receive the most variables.
+//since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
 
 int main()
@@ -42,7 +44,6 @@ int main()
 
 
 	superEpicCamelMenu(); //display the amazing title screen, once.
-
 	do
 	{
 		mainActionMenu(); //display main-menu
@@ -54,6 +55,21 @@ int main()
 
 
 	return 0;
+}
+
+int nativesRand()
+{
+	int maxVal = 15;
+	int minVal = 7;
+
+
+	srand(time(0));
+
+	int distance;
+
+	distance = (rand() % (maxVal - minVal + 1)) + minVal;
+
+	return distance;
 }
 
 void clearScreen() //clears the screen.
@@ -70,7 +86,7 @@ void clearScreen() //clears the screen.
 void pause() //pauses the program until the user presses Enter.
 {
 
-	cout << endl << "Press Enter to continue! " << endl;
+	cout << endl << "Press Enter to continue! " << endl; 
 	cin.get();
 	cin.ignore();
 	cin.clear();
@@ -103,7 +119,7 @@ void superEpicCamelMenu() //Displays the one-time EPIC camel menu.
  cout << "                       c  c  ` c C ` C  ` ``  `` ``" << endl;
  cout << "                   c       C" << endl;
  cout << "              C        C" << endl;
- cout << "                   C                                                              " << endl;
+ cout << "                   C                                                              " << endl; 
  pause();
 }
 
@@ -221,7 +237,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	
 	case 'D':
-		cout << "you chose D!" << endl;
+		rest(camel, natives);		
 		pause();
 		break;
 
@@ -231,13 +247,14 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		break;
 
 	default:
+		clearScreen();
 		cout << "Sorry, but that isn't a valid choice! :(" << endl;
 		pause();
 		break;
 	}
 }
 
-void statusCheck(int miles, int canteen, int natives)
+void statusCheck(int miles, int canteen, int natives) //called when the user checks their status
 {
 	clearScreen();
 
@@ -248,4 +265,38 @@ void statusCheck(int miles, int canteen, int natives)
 	cout << "The natives are " << (miles - natives) << " Miles behind you." << endl;
 
 	pause();
+}
+
+void rest(int& camel, int& natives) //called when the user chooses to rest
+{
+	camel = 0;
+	natives += nativesRand(); //incress the distance the natives traveled by a random amount.
+
+	clearScreen();
+	cout << "You Stop and rest for the night..." << endl;
+	cout << "While the natives may be getting closer," << endl;
+	cout << "at least your camel seems pretty happy." << endl;
+	cout << endl << endl;
+	nightTimePicture();
+}
+
+void nightTimePicture() //display a pretty nighttime picturre
+{
+
+ cout << "                               *                " << endl;
+ cout << "                *                         " << endl;
+ cout << "   *                                     " << endl;
+ cout << "                      *                             *           * " << endl;
+ cout << "  *         _                                                     " << endl;
+ cout << "       _-''/`                *              |                       - _" << endl;
+ cout << "    _-'   ( '-_            _              - # -                  .-''.`." << endl;
+ cout << "_.-'       '.   `'-._   .-'/'.              |                _-''   (   '-_" << endl;
+ cout << "             '.      _-`   (   '-_                       _.-'       )     '-._" << endl;
+ cout << "           _.'   _.-'       (     `-._                 '`'        .-'" << endl;
+ cout << "         '               .-'          `'             '            )   " << endl;
+ cout << "__  _  ____ _____  ___ ____________ _______________  ___  ___________ " << endl;
+ cout << "                                                                        " << endl;
+ cout << "                   c       C" << endl;
+ cout << "              C        C" << endl;
+ cout << "                   C                                                              " << endl; 
 }
