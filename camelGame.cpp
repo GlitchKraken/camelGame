@@ -29,12 +29,12 @@ int nativesRand(int& nativesDistance);//the RNG behind how far the natives move
 int camelRand(); //RNG for how. tired the camel is.
 int fastTravelRand(); //RNG for fast-paced travel.
 int medTravelRand(); //RNG for medium-paced travel.
-char userChoiceValidation(char& userChoice);
-void nightTimePicture();
+char userChoiceValidation(char& userChoice); //takes the users choice and validates it
+void nightTimePicture(); //a pretty picture at night
 void travelFullSpeed(int& camel, int& natives, int& Thirst, int& miles); //called when the user wants to travel ahead at full speed.
 void travelModerateSpeed(int& camel, int& natives, int& Thirst, int& miles);
 void canteenDrink(int& thirst, int& canteen); //called if user wants to drink from canteen.
-void oasisPicutre();
+void oasisPicutre(); //a picture of the oasis!
 
 //since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
@@ -260,7 +260,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	case 'A':
 	
-		cout << "You Chose A!" << endl;
+		canteenDrink(thirst, canteen);
 		pause();
 		break;
 
@@ -295,6 +295,22 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 	}
 
 	//an if-structure containing Game-over scenarios should go here.
+
+	if(thirst > 4)
+	{
+		clearScreen();
+		cout << "You are getting really thirsty..." << endl;
+		pause();
+	}
+	if(thirst > 6)
+	{
+		clearScreen();
+		cout << "The heat of the desert has finally gotten to you," << endl;
+		cout << "and you collapse from exaustion, and thirst." << endl;
+		cout << " 			GAME 			OVER			 " << endl;
+		cout << endl << endl << "...least the natives get their camel back." << endl;
+		quit = true;
+	}
 
 }
 
