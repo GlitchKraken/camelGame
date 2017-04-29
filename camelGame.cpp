@@ -8,6 +8,9 @@
 	to do so, the user will make a "move" each turn 
 	from a list of options. The program needs to be
 	as modularized as possible for points.
+
+
+	github Link: https://github.com/cfrybb/camelGame.git
 */
 #include <iostream>
 #include <iomanip>
