@@ -42,6 +42,9 @@ void oasisPicture(); //a picture of the oasis!
 void oasis(int& thirst, int& camel, int& canteen);
 void nativeGameOver(bool& quit);
 void victory(bool& quit);
+void thirstGameOver(bool& quit);
+void camelGameOver(bool& quit);
+
 
 //since this function will be handling *most* of the logic, it is necessary for it to receive the most variables.
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel );
@@ -314,21 +317,32 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	//an if-structure containing Game-over scenarios should go here.
 
-	if(thirst > 4)
+    if(thirst > 6)
+	{
+		thirstGameOver(quit);
+	}
+
+
+	else if(camel > 8)
+	{
+		camelGameOver(quit);
+	}
+
+	else if (natives >= miles )
+	{
+		nativeGameOver(quit); //give the user the native's gameOver screen, and exit the game.
+	}
+
+
+
+	if(thirst > 4 )
 	{
 		clearScreen();
 		cout << "You are getting really thirsty..." << endl;
 		pause();
 	}
-	if(thirst > 6)
-	{
-		clearScreen();
-		cout << "The heat of the desert has finally gotten to you," << endl;
-		cout << "and you collapse from exaustion, and thirst." << endl;
-		cout << " 			GAME 			OVER			 " << endl;
-		cout << endl << endl << "...least the natives get their camel back." << endl;
-		quit = true;
-	}
+
+	
 
 	if(camel > 5)
 	{
@@ -338,16 +352,6 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		pause();
 	}
 
-	if(camel > 8)
-	{
-		clearScreen();
-		cout << "Tired of your Shenanaigans, your camel rears up," << endl;
-		cout << "boots you off, and runs far into the distance- " << endl;
-		cout << "Leaving you behind." << endl;
-		cout << "		GAME 		OVER" << endl;
-		cout << endl << endl << "...maybe be nicer to mr. camel next time :( " << endl;
-		quit = true;
-	}
 	if(miles - natives < 15)
 	{
 		clearScreen();
@@ -355,10 +359,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		cout << "The natives are getting close..." << endl;
 		pause();
 	}
-	if (natives >= miles )
-	{
-		nativeGameOver(quit); //give the user the native's gameOver screen, and exit the game.
-	}
+	
 	if(miles >= 200)
 	{
 		victory(quit); //give the user a victory message, then set quit/done = true. (exit game).
@@ -501,10 +502,10 @@ void canteenDrink(int& thirst, int& canteen)
 
 void victoryPic()
 {
- cout << "	                  /-----/                        |" << endl;
+ cout << "	            /-----/                        |" << endl;
  cout << "  *                 | |n| |                       -#-       *            *" << endl;
  cout << "                    | ||_||                        |" << endl;
- cout << "                   /  \\Y//      *" << endl;
+ cout << "                   /  ][Y//      *" << endl;
  cout << "            )(__X,,|__|   |;;//--\\" << endl;
  cout << "           /  \\;;;;;;;;;;;;/|----|                              *" << endl;
  cout << "           |A | |            | U  |" << endl;
@@ -571,6 +572,7 @@ void victory(bool& quit)
 	cout << "YOU 		WON!!! " << endl;
 	cout << endl << endl << endl;
 	victoryPic();
+	pause();
 	quit = true;
 }
 
@@ -580,5 +582,30 @@ void nativeGameOver(bool& quit)
 	cout << "The natives caught up with you, ruffed you up, and took" << endl;
 	cout << "their camel BACK." << endl;
 	cout << endl << endl << "		Game 		OVER" << endl;
+	pause();
+	quit = true;
+}
+
+void thirstGameOver(bool& quit)
+{
+
+    clearScreen();
+	cout << "The heat of the desert has finally gotten to you," << endl;
+	cout << "and you collapse from exaustion, and thirst." << endl;
+	cout << " 			GAME 			OVER			 " << endl;
+	cout << endl << endl << "...at least the natives get their camel back." << endl;
+	pause();
+	quit = true;
+}
+
+void camelGameOver(bool& quit)
+{
+	clearScreen();
+	cout << "Tired of your Shenanaigans, your camel rears up," << endl;
+	cout << "boots you off, and runs far into the distance- " << endl;
+	cout << "Leaving you behind." << endl;
+	cout << "		GAME 		OVER" << endl;
+	cout << endl << endl << "...maybe be nicer to mr. camel next time :( " << endl;
+	pause();
 	quit = true;
 }
