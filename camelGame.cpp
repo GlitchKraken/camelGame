@@ -262,6 +262,7 @@ char userChoiceValidation(char& userChoice) //Takes user's choice, then validate
 
 void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& natives, int& camel )
 {
+
 	switch(choice)
 	{
 
@@ -335,7 +336,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 
 
-	if(thirst > 4 )
+	if(thirst > 4 && !quit)
 	{
 		clearScreen();
 		cout << "You are getting really thirsty..." << endl;
@@ -344,7 +345,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 
 	
 
-	if(camel > 5)
+	if(camel > 5 && !quit)
 	{
 		clearScreen();
 		cout << "Your camel is getting really tired..." << endl;
@@ -352,7 +353,7 @@ void logic(bool& quit, char choice, int& miles, int& canteen, int& thirst, int& 
 		pause();
 	}
 
-	if(miles - natives < 15)
+	if(miles - natives < 15 && !quit)
 	{
 		clearScreen();
 		cout << "You see a large rumble of dust, and small figures on the horizon..." << endl;
